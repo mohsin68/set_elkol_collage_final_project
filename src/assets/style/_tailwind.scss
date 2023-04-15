@@ -36,9 +36,4 @@
     .flex-center {
       @apply flex justify-center items-center;
     }
-
-    .main-card {
-      @apply rounded-md p-4 bg-white shadow-lg;
-      height: fit-content;
-    }
   }

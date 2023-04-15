@@ -5,7 +5,7 @@ import router from './router';
 import store from './store';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
-import './assets/style/tailwind.scss';
+import './assets/style/main.scss';
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify);

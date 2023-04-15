@@ -4,9 +4,9 @@
       <div class="logo">
         <img src="@/assets/logo.png" class="w-36" />
       </div>
-      <v-list>
+      <v-list dense>
         <v-list-item-group>
-          <v-list-item v-for="(item, i) in items" :key="i" link>
+          <v-list-item v-for="(item, i) in items" :key="i" link class="mb-4">
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -31,7 +31,7 @@ export default {
   },
   data: () => ({
     items: [
-      { title: "Item", icon: "mdi-inbox" },
+      { title: "Dashboard", icon: "mdi-view-dashboard" },
       { title: "Item", icon: "mdi-star" },
       { title: "Item", icon: "mdi-send" },
       { title: "Item", icon: "mdi-email" },
