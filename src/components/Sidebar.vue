@@ -47,7 +47,7 @@ export default {
   data: () => ({
     items: [
       { title: "Dashboard", icon: "mdi-view-dashboard", url: "/" },
-      { title: "Item", icon: "mdi-star" },
+      { title: "Orders", icon: "mdi-food", url: "/orders" },
       { title: "Item", icon: "mdi-send" },
       { title: "Item", icon: "mdi-email" },
     ],
