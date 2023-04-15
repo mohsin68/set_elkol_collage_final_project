@@ -13,9 +13,7 @@
 </template>
 
 <script>
-import BaseCart from "@/components/BaseCart.vue";
 export default {
-  components: { BaseCart },
   props: {
     title: {
       type: String,

@@ -6,7 +6,12 @@ import store from './store';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 import './assets/style/main.scss';
+import BaseCart from './components/BaseCart.vue';
+import VueApexCharts from 'vue-apexcharts';
+Vue.use(VueApexCharts);
 
+Vue.component('apexchart', VueApexCharts);
+Vue.component('base-cart', BaseCart);
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 
