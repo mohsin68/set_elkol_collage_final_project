@@ -3,7 +3,7 @@
     <navbar @toggleSidebar="toggleSidebar" />
     <sidebar :drawer="drawer" />
     <v-main>
-      <v-container fluid>
+      <v-container>
         <transition name="slide-up" mode="out-in">
           <router-view />
         </transition>

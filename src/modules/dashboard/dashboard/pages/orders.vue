@@ -1,7 +1,7 @@
 <template>
   <div class="orders-page">
     <header class="d-flex gap-2 mb-4">
-      <v-icon color="yellow">mdi-food</v-icon>
+      <v-icon color="primary"> mdi-format-list-bulleted </v-icon>
       <h4 class="text-yellow">All Orders</h4>
     </header>
     <orders-table :orders="orders" />

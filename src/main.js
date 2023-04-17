@@ -6,12 +6,12 @@ import store from './store';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 import './assets/style/main.scss';
-import BaseCart from './components/BaseCart.vue';
+import BaseCard from './components/BaseCard.vue';
 import VueApexCharts from 'vue-apexcharts';
 Vue.use(VueApexCharts);
 
 Vue.component('apexchart', VueApexCharts);
-Vue.component('base-cart', BaseCart);
+Vue.component('base-card', BaseCard);
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 
@@ -23,8 +23,8 @@ new Vue({
       dark: true,
       themes: {
         dark: {
-          primary: '#1F1F1F',
-          yellow: '#F29322',
+          primary: '#F29322',
+          dark: '#1F1F1F',
           green: '#519259',
           red: '#F75757',
         },

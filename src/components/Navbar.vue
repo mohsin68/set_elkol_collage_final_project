@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" elevation="0">
+  <v-app-bar app color="dark" elevation="0">
     <v-app-bar-nav-icon @click.stop="$emit('toggleSidebar')">
       <img src="@/assets/menu.svg" alt="menu" />
     </v-app-bar-nav-icon>

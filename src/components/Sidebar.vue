@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :value="drawer" color="primary" app fixed width="270">
+  <v-navigation-drawer :value="drawer" color="dark" app fixed width="270">
     <v-container>
       <div class="logo px-2">
         <img src="@/assets/logo.png" class="w-36" />
@@ -47,8 +47,8 @@ export default {
   data: () => ({
     items: [
       { title: "Dashboard", icon: "mdi-view-dashboard", url: "/" },
-      { title: "Orders", icon: "mdi-food", url: "/orders" },
-      { title: "Item", icon: "mdi-send" },
+      { title: "Orders", icon: "mdi-format-list-bulleted", url: "/orders" },
+      { title: "Meals", icon: "mdi-food", url: "/meals" },
       { title: "Item", icon: "mdi-email" },
     ],
   }),

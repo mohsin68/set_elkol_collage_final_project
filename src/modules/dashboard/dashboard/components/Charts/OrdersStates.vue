@@ -1,5 +1,5 @@
 <template>
-  <base-cart>
+  <base-card>
     <h4 class="font-bold mb-3">Orders Statistics</h4>
     <apexchart
       width="100%"
@@ -7,7 +7,7 @@
       :options="chartOptions"
       :series="series"
     ></apexchart>
-  </base-cart>
+  </base-card>
 </template>
 
 <script>

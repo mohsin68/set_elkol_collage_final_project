@@ -1,5 +1,5 @@
 <template>
-  <base-cart>
+  <base-card>
     <h4 class="font-bold mb-3">Revenue</h4>
     <apexchart
       height="300"
@@ -7,7 +7,7 @@
       :series="series"
       ref="lineChart"
     ></apexchart>
-  </base-cart>
+  </base-card>
 </template>
 
 <script>

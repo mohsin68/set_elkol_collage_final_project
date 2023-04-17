@@ -1,5 +1,5 @@
 <template>
-  <base-cart class="statistics-cart px-6 py-8">
+  <base-card class="statistics-cart px-6 py-8">
     <div class="d-flex justify-between items-center">
       <div class="d-flex flex-col">
         <span class="total-numbers text-3xl">{{ number }}</span>
@@ -9,7 +9,7 @@
         <v-icon class="text-white"> {{ icon }} </v-icon>
       </div>
     </div>
-  </base-cart>
+  </base-card>
 </template>
 
 <script>
