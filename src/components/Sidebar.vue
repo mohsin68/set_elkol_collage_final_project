@@ -1,5 +1,13 @@
 <template>
-  <v-navigation-drawer :value="drawer" color="dark" app fixed width="270">
+  <v-navigation-drawer
+    :value="value"
+    @input="$emit('input', $event)"
+    color="dark"
+    app
+    fixed
+    width="270"
+    temporary
+  >
     <v-container>
       <div class="logo px-2">
         <img src="@/assets/logo.png" class="w-36" />
@@ -39,7 +47,7 @@
 <script>
 export default {
   props: {
-    drawer: {
+    value: {
       type: Boolean,
       required: true,
     },

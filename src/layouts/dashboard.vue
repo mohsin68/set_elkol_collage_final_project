@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar @toggleSidebar="toggleSidebar" />
-    <sidebar :drawer="drawer" />
+    <sidebar v-model="drawer" />
     <v-main>
       <v-container>
         <transition name="slide-up" mode="out-in">
