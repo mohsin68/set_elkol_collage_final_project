@@ -6,7 +6,6 @@
     app
     fixed
     width="270"
-    temporary
   >
     <v-container>
       <div class="logo px-2">
