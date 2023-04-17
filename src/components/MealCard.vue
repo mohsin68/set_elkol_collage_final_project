@@ -26,7 +26,7 @@
       </template>
 
       <v-list>
-        <v-list-item link dense @click="$emit('editMeal', { meal })">
+        <v-list-item link dense @click="$emit('editMeal', meal)">
           <v-list-item-title class="text-sm text-green">
             <v-icon color="green" class="mr-2">mdi-pencil</v-icon>
             Edit

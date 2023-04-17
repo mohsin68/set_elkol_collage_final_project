@@ -49,7 +49,7 @@ export default {
       { title: "Dashboard", icon: "mdi-view-dashboard", url: "/" },
       { title: "Orders", icon: "mdi-format-list-bulleted", url: "/orders" },
       { title: "Meals", icon: "mdi-food", url: "/meals" },
-      { title: "Item", icon: "mdi-email" },
+      { title: "Chiefs", icon: "mdi-bowl-mix-outline", url: "/chiefs" },
     ],
   }),
 };
