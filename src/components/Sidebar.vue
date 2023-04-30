@@ -57,6 +57,11 @@ export default {
       { title: "Orders", icon: "mdi-format-list-bulleted", url: "/orders" },
       { title: "Meals", icon: "mdi-food", url: "/meals" },
       { title: "Chiefs", icon: "mdi-bowl-mix-outline", url: "/chiefs" },
+      {
+        title: "Delivery Men",
+        icon: "mdi-bike-fast",
+        url: "/delivery",
+      },
     ],
   }),
 };
