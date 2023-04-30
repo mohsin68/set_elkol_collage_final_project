@@ -1,6 +1,6 @@
 <template>
   <div
-    class="base-cart bg-primary border border-solid border-gray-700 px-6 py-4 rounded-lg"
+    class="base-cart relative bg-primary border border-solid border-gray-700 px-6 py-4 rounded-lg"
   >
     <slot></slot>
   </div>
