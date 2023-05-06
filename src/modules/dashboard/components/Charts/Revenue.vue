@@ -12,12 +12,15 @@
 
 <script>
 export default {
+  props: {
+    data: Array,
+  },
   data() {
     return {
       series: [
         {
           name: "Revenue",
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
+          data: this.data.map((item) => item.total),
         },
       ],
       chartOptions: {
@@ -48,17 +51,7 @@ export default {
           width: 3,
         },
         xaxis: {
-          categories: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-          ],
+          categories: [...this.data.map((item) => item.month), "Total"],
         },
         grid: {
           borderColor: "#6D6D6D",
@@ -66,7 +59,8 @@ export default {
         yaxis: {
           labels: {
             formatter: function (val) {
-              return val + "k";
+              const value = val.toString();
+              return value.length > 3 ? `${value.slice(0, -3)}k` : value;
             },
           },
         },

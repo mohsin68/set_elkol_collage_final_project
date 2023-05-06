@@ -5,7 +5,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  created() {
+    if (localStorage.getItem("token")) {
+      this.$store.dispatch("autoLogin");
+    }
+  },
+};
 </script>
 
 <style>

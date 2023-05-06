@@ -15,7 +15,7 @@ const routes = [
     component: dashboardLayouts,
     children: dashboardRoutes,
     beforeEnter: (to, from, next) => {
-      if (store.getters[ 'isAuth' ]) {
+      if (store.getters[ 'isAuth' ] || localStorage.getItem('token')) {
         next();
       } else {
         next('/auth/signin');

@@ -9,6 +9,15 @@ import './assets/style/main.scss';
 import BaseCard from './components/BaseCard.vue';
 import VueApexCharts from 'vue-apexcharts';
 import axios from './axios';
+import './VeeValidate';
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+
+Vue.use(Toast, {
+  timeout: 3000,
+  position: "bottom-right",
+});
 Vue.use(VueApexCharts);
 
 Vue.component('apexchart', VueApexCharts);

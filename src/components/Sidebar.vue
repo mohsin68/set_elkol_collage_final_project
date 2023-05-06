@@ -35,6 +35,10 @@
         class="mt-4 absolute bottom-9 w-[90%] left-1/2 transform -translate-x-1/2"
         color="red"
         outlined
+        @click="
+          $store.dispatch('logout');
+          $router.push('auth/signin');
+        "
       >
         <v-icon class="mr-2">mdi-logout</v-icon>
         Logout
