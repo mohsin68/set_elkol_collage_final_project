@@ -56,8 +56,15 @@ export default {
       const { data } = await this.$api.get("/admin/dashboard");
       const stats = data.data.stats;
       this.statistics.forEach((stat) => {
-        stat.number = stats[stat.title.toLowerCase().replace(" ", "_")];
+        const value =
+          stats[stat.title.toLowerCase().replace(" ", "_")].toString();
+
+        stat.number =
+          value > 999
+            ? value.substring(0, 3) + "." + value.slice(-2) + "k"
+            : value;
       });
+
       this.ordersChart = stats.orders_chart;
       this.revenueChart = stats.revenue_chart;
     },
