@@ -1,8 +1,8 @@
-import dashboardHome from './dashboard/pages/index.vue';
-import orders from './dashboard/pages/orders.vue';
-import meals from './dashboard/pages/meals.vue';
-import chiefs from './dashboard/pages/chiefs.vue';
-import delivery from './dashboard/pages/delivery.vue';
+import dashboardHome from './pages/index.vue';
+import orders from './pages/orders.vue';
+import meals from './pages/meals.vue';
+import chiefs from './pages/chiefs.vue';
+import delivery from './pages/delivery.vue';
 export default [
   {
     path: '/',

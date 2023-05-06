@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store';
 import dashboardLayouts from '../layouts/dashboard.vue';
 import authLayouts from '../layouts/auth.vue';
 
 import dashboardRoutes from '@/modules/dashboard/dashboard.routes';
+import authRoutes from '@/modules/auth/auth.routes';
 
 Vue.use(VueRouter);
 
@@ -12,11 +14,18 @@ const routes = [
     path: '/',
     component: dashboardLayouts,
     children: dashboardRoutes,
+    beforeEnter: (to, from, next) => {
+      if (store.getters[ 'isAuth' ]) {
+        next();
+      } else {
+        next('/auth/signin');
+      }
+    }
   },
   {
     path: '/auth',
     component: authLayouts,
-
+    children: authRoutes,
   }
 ];
 

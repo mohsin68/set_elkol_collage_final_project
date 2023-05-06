@@ -6,7 +6,7 @@
       <revenue class="lg:col-span-3" />
       <orders-states class="lg:col-span-2" />
     </div>
-    <orders-table :orders="orders" />
+    <!-- <orders-table :orders="orders" /> -->
   </div>
 </template>
 
@@ -22,22 +22,22 @@ export default {
     return {
       statistics: [
         {
-          title: "Total Menus",
+          title: "Total Meals",
           number: 120,
           icon: "mdi-text-box-outline",
         },
         {
-          title: "Total Orders Today",
+          title: "Total Orders ",
           number: 180,
           icon: "mdi-shopping-outline",
         },
         {
-          title: "Total Clients Today",
+          title: "Total Clients ",
           number: 240,
           icon: "mdi-account-group-outline",
         },
         {
-          title: "Total Revenue Today",
+          title: "Total Revenue ",
           number: 420,
           icon: "mdi-currency-usd",
         },
@@ -94,6 +94,12 @@ export default {
         },
       ],
     };
+  },
+
+  methods: {
+    async getAdminData() {
+      const { data } = await this.$api.get("/admin");
+    },
   },
 };
 </script>

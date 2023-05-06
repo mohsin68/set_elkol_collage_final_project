@@ -8,12 +8,14 @@ import '@mdi/font/css/materialdesignicons.css';
 import './assets/style/main.scss';
 import BaseCard from './components/BaseCard.vue';
 import VueApexCharts from 'vue-apexcharts';
+import axios from './axios';
 Vue.use(VueApexCharts);
 
 Vue.component('apexchart', VueApexCharts);
 Vue.component('base-card', BaseCard);
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
+Vue.prototype.$api = axios;
 
 new Vue({
   router,

@@ -31,7 +31,7 @@ export default {
           },
         },
         chart: {
-          type: "line",
+          type: "bar",
           background: "transparent",
           zoom: {
             enabled: false,
