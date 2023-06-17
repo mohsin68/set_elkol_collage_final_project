@@ -15,18 +15,23 @@ const routes = [
     component: dashboardLayouts,
     children: dashboardRoutes,
     beforeEnter: (to, from, next) => {
-      if (store.getters[ 'isAuth' ] || localStorage.getItem('token')) {
+      if (store.getters['isAuth'] || localStorage.getItem('token')) {
+        if (to.path == '/') {
+          if (JSON.parse(localStorage.getItem('user')).roles[0] == 'super-admin')
+            next({ name: 'admin-dashboard' });
+          else next({ name: 'chef-dashboard' });
+        }
         next();
       } else {
         next('/auth/signin');
       }
-    }
+    },
   },
   {
     path: '/auth',
     component: authLayouts,
     children: authRoutes,
-  }
+  },
 ];
 
 const router = new VueRouter({

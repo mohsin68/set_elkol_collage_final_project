@@ -74,9 +74,11 @@ export default {
       if (!valid) return;
       try {
         this.loading = true;
-        await this.$store.dispatch("auth", this.form);
+        const data = await this.$store.dispatch("auth", this.form);
         this.$toast.success("Logged in successfully");
-        this.$router.push("/");
+        if (data.roles[0] == "super-admin")
+          this.$router.push({ name: "admin-dashboard" });
+        else this.$router.push({ name: "chef-dashboard" });
       } catch (err) {
         if (err.response.status === 401) {
           return this.$toast.error("Invalid credentials");

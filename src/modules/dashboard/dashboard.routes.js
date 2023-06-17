@@ -3,11 +3,18 @@ import orders from './pages/orders.vue';
 import meals from './pages/meals.vue';
 import chiefs from './pages/chiefs.vue';
 import delivery from './pages/delivery.vue';
+import chefDashboard from './pages/chef-dashboard.vue';
+
 export default [
   {
-    path: '/',
-    name: 'dashboard',
+    path: '/admin-dashboard',
+    name: 'admin-dashboard',
     component: dashboardHome,
+  },
+  {
+    path: '/chef-dashboard',
+    name: 'chef-dashboard',
+    component: chefDashboard,
   },
   {
     path: '/orders',
@@ -27,6 +34,6 @@ export default [
   {
     path: '/delivery',
     name: 'Delivery Men',
-    component: delivery
-  }
+    component: delivery,
+  },
 ];
