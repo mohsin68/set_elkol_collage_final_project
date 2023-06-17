@@ -14,13 +14,10 @@ const routes = [
     path: '/',
     component: dashboardLayouts,
     children: dashboardRoutes,
+    redirect: '/admin-dashboard',
     beforeEnter: (to, from, next) => {
+      const user = JSON.parse(localStorage.getItem('user'));
       if (store.getters['isAuth'] || localStorage.getItem('token')) {
-        if (to.path == '/') {
-          if (JSON.parse(localStorage.getItem('user')).roles[0] == 'super-admin')
-            next({ name: 'admin-dashboard' });
-          else next({ name: 'chef-dashboard' });
-        }
         next();
       } else {
         next('/auth/signin');

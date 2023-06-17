@@ -81,12 +81,15 @@
               outlined
               dense
             ></v-textarea>
-            <v-text-field
-              v-model="meal.category"
+            <v-select
+              v-model="meal.category_slug"
+              :items="categories"
+              item-text="name"
+              value="slug"
               label="Meal Category"
               outlined
               dense
-            ></v-text-field>
+            ></v-select>
             <v-text-field
               v-model="meal.price"
               label="Meal Price"
@@ -96,7 +99,7 @@
           </div>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="green" block @click="addMeal">
+          <v-btn color="primary" block @click="addMeal">
             {{ edit ? "Edit" : "Add" }}
           </v-btn>
         </v-card-actions>
@@ -113,10 +116,11 @@ export default {
   data() {
     return {
       dialog: false,
+      categories: [],
       meal: {
         name: "",
         description: "",
-        category: "",
+        category_slug: "",
         price: "",
         image: "",
       },
@@ -246,6 +250,14 @@ export default {
         this.meal.image = reader.result;
       };
     },
+    async getCats() {
+      try {
+        const { data } = await this.$api.get("/chef/meals/create");
+        this.categories = data.data.categories;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   watch: {
     edit() {
@@ -257,6 +269,9 @@ export default {
         };
       }
     },
+  },
+  created() {
+    this.getCats();
   },
 };
 </script>
