@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import formatNumber from "@/helpers/formatNumber";
 export default {
   props: {
     data: Array,
@@ -36,6 +37,7 @@ export default {
         chart: {
           type: "bar",
           background: "transparent",
+
           zoom: {
             enabled: false,
           },
@@ -43,12 +45,13 @@ export default {
             show: false,
           },
         },
+        plotOptions: {
+          bar: {
+            borderRadius: 5,
+          },
+        },
         dataLabels: {
           enabled: false,
-        },
-        stroke: {
-          curve: "straight",
-          width: 3,
         },
         xaxis: {
           categories: [...this.data.map((item) => item.month), "Total"],
@@ -58,10 +61,7 @@ export default {
         },
         yaxis: {
           labels: {
-            formatter: function (val) {
-              const value = val.toString();
-              return value.length > 3 ? `${value.slice(0, -3)}k` : value;
-            },
+            formatter: (val) => formatNumber(val),
           },
         },
       },

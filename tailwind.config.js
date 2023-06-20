@@ -1,8 +1,5 @@
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     dark: true,
     extend: {
@@ -13,7 +10,7 @@ module.exports = {
         green: '#519259',
         red: '#F75757',
       },
-    }
+    },
   },
   variants: {},
   plugins: [],

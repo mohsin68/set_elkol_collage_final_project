@@ -19,6 +19,7 @@ import OrdersTable from "@/components/OrdersTable.vue";
 import OrdersStates from "../components/Charts/OrdersStates.vue";
 import Revenue from "../components/Charts/Revenue.vue";
 import StatisticsList from "../components/Statistics/StatisticsList.vue";
+import formatNumber from "@/helpers/formatNumber";
 
 export default {
   components: { StatisticsList, Revenue, OrdersStates, OrdersTable },
@@ -56,13 +57,9 @@ export default {
       const { data } = await this.$api.get("/admin/dashboard");
       const stats = data.data.stats;
       this.statistics.forEach((stat) => {
-        const value =
-          stats[stat.title.toLowerCase().replace(" ", "_")].toString();
+        const value = stats[stat.title.toLowerCase().replace(" ", "_")];
 
-        stat.number =
-          value > 999
-            ? value.substring(0, 3) + "." + value.slice(-2) + "k"
-            : value;
+        stat.number = formatNumber(value);
       });
 
       this.ordersChart = stats.orders_chart;
