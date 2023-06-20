@@ -9,7 +9,7 @@
   >
     <v-container>
       <div class="logo px-2">
-        <img src="@/assets/logo.png" class="w-36" />
+        <img src="@/assets/logo2.png" class="w-20 mx-auto" />
       </div>
       <v-list nav dense class="mt-4">
         <v-list-item-group>
