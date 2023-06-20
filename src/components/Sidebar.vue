@@ -14,7 +14,7 @@
       <v-list nav dense class="mt-4">
         <v-list-item-group>
           <v-list-item
-            v-for="(item, i) in items"
+            v-for="(item, i) in sidebarItems"
             :key="i"
             class="rounded-md mb-4"
             :to="item.url"
@@ -56,18 +56,27 @@ export default {
     },
   },
   data: () => ({
-    items: [
-      { title: "Dashboard", icon: "mdi-view-dashboard", url: "/" },
-      { title: "Orders", icon: "mdi-format-list-bulleted", url: "/orders" },
-      { title: "Meals", icon: "mdi-food", url: "/meals" },
-      { title: "Chiefs", icon: "mdi-bowl-mix-outline", url: "/chiefs" },
-      {
-        title: "Delivery Men",
-        icon: "mdi-bike-fast",
-        url: "/delivery",
-      },
-    ],
+    items: [],
   }),
+  computed: {
+    dashboardUrl() {
+      const user = this.$store.getters.user;
+      if (user.roles[0] == "super-admin") return "admin-dashboard";
+      else return "chef-dashboard";
+    },
+    sidebarItems() {
+      return [
+        {
+          title: "Dashboard",
+          icon: "mdi-view-dashboard",
+          url: this.dashboardUrl,
+        },
+        { title: "Orders", icon: "mdi-format-list-bulleted", url: "/orders" },
+        { title: "Meals", icon: "mdi-food", url: "/meals" },
+        { title: "Chiefs", icon: "mdi-bowl-mix-outline", url: "/chiefs" },
+      ];
+    },
+  },
 };
 </script>
 

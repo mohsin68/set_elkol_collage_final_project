@@ -14,19 +14,21 @@ const routes = [
     path: '/',
     component: dashboardLayouts,
     children: dashboardRoutes,
+    redirect: '/admin-dashboard',
     beforeEnter: (to, from, next) => {
-      if (store.getters[ 'isAuth' ] || localStorage.getItem('token')) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (store.getters['isAuth'] || localStorage.getItem('token')) {
         next();
       } else {
         next('/auth/signin');
       }
-    }
+    },
   },
   {
     path: '/auth',
     component: authLayouts,
     children: authRoutes,
-  }
+  },
 ];
 
 const router = new VueRouter({
