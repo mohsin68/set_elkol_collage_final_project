@@ -1,37 +1,52 @@
 <template>
   <div class="chiefs-page">
-    <div class="new-chiefs mb-8">
+    <div class="new-chiefs mb-8" v-if="chiefsRequests.length">
       <h3>New Chiefs Requests</h3>
       <div
         class="new-chiefs__list grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4"
       >
         <base-card
-          v-for="chief in 5"
-          :key="chief"
+          v-for="chief in chiefsRequests"
+          :key="chief.id"
           class="new-chiefs__card d-flex gap-4"
         >
-          <div class="new-chiefs__card-image">
+          <div
+            class="new-chiefs__card-image bg-white rounded-full p-4 w-32 h-32"
+          >
             <img
-              class="w-32 h-32 rounded-full object-cover mx-auto"
-              src="@/assets/images/chief.jpg"
+              class="w-24 h-24 rounded-full object-cover mx-auto"
+              src="@/assets/images/chef.png"
             />
           </div>
 
           <div class="new-chiefs__card-info flex-1">
-            <h6>Ahmed Mohsen</h6>
+            <h6>{{ chief.first_name }} {{ chief.last_name }}</h6>
             <ul class="px-0 mx-0 my-2">
-              <li class="text-sm">Gender: Male</li>
-              <li class="text-sm">Years of experience: 4</li>
+              <li class="text-sm">Gender: {{ chief.gender }}</li>
+              <li class="text-sm">Nationality: {{ chief.nationality }}</li>
+              <li class="text-sm">
+                Years of experience: {{ Math.floor(Math.random() * 10) + 1 }}
+              </li>
+              <li class="text-sm">certificate: {{ chief.certificate }}</li>
             </ul>
 
-            <div class="card-info__actions d-flex justify-end gap-4 mt-4">
-              <v-btn color="grey lighten-1" elevation="2" icon outlined>
-                <v-icon>mdi-eye</v-icon>
-              </v-btn>
-              <v-btn color="red" elevation="2" icon outlined>
+            <div class="card-info__actions d-flex gap-4 mt-4">
+              <v-btn
+                color="red"
+                elevation="2"
+                icon
+                outlined
+                @click="rejectChef(chief.id)"
+              >
                 <v-icon>mdi-close</v-icon>
               </v-btn>
-              <v-btn color="teal lighten-1" elevation="2" icon outlined>
+              <v-btn
+                color="teal lighten-1"
+                elevation="2"
+                icon
+                outlined
+                @click="rejectChef(chief.id)"
+              >
                 <v-icon>mdi-check</v-icon>
               </v-btn>
             </div>
@@ -39,7 +54,11 @@
         </base-card>
       </div>
     </div>
-    <div class="our-chiefs">
+    <div class="no-chiefs-requests mt-20 text-center" v-else>
+      <h3>No Chiefs Requests Right Now</h3>
+    </div>
+
+    <!-- <div class="our-chiefs">
       <h3>Our Chiefs</h3>
       <div
         class="chiefs-list grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4"
@@ -70,7 +89,7 @@
           </div>
         </base-card>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -78,87 +97,49 @@
 export default {
   data() {
     return {
-      chiefs: [
-        {
-          id: 1,
-          name: "Mohamed Adeel",
-          image: require("@/assets/images/chief.jpg"),
-          rating: 3,
-          special_dish: "Chicken Shawarma",
-          delivery: "Giza",
-        },
-        {
-          id: 2,
-          name: "Mohamed Adeel",
-          image: require("@/assets/images/chief.jpg"),
-          rating: 3,
-          special_dish: "Chicken Shawarma",
-          delivery: "Giza",
-        },
-        {
-          id: 3,
-          name: "Mohamed Adeel",
-          image: require("@/assets/images/chief.jpg"),
-          rating: 3,
-          special_dish: "Chicken Shawarma",
-          delivery: "Giza",
-        },
-        {
-          id: 4,
-          name: "Mohamed Adeel",
-          image: require("@/assets/images/chief.jpg"),
-          rating: 3,
-          special_dish: "Chicken Shawarma",
-          delivery: "Giza",
-        },
-        {
-          id: 5,
-          name: "Mohamed Adeel",
-          image: require("@/assets/images/chief.jpg"),
-          rating: 3,
-          special_dish: "Chicken Shawarma",
-          delivery: "Giza",
-        },
-        {
-          id: 6,
-          name: "Mohamed Adeel",
-          image: require("@/assets/images/chief.jpg"),
-          rating: 3,
-          special_dish: "Chicken Shawarma",
-          delivery: "Giza",
-        },
-        {
-          id: 7,
-          name: "Mohamed Adeel",
-          image: require("@/assets/images/chief.jpg"),
-          rating: 3,
-          special_dish: "Chicken Shawarma",
-          delivery: "Giza",
-        },
-        {
-          id: 8,
-          name: "Mohamed Adeel",
-          image: require("@/assets/images/chief.jpg"),
-          rating: 3,
-          special_dish: "Chicken Shawarma",
-          delivery: "Giza",
-        },
-        {
-          id: 9,
-          name: "Mohamed Adeel",
-          image: require("@/assets/images/chief.jpg"),
-          rating: 3,
-          special_dish: "Chicken Shawarma",
-          delivery: "Giza",
-        },
-        {
-          id: 10,
-          name: "Mohamed Adeel",
-          image: require("@/assets/images/chief.jpg"),
-          rating: 3,
-        },
-      ],
+      chiefsRequests: [],
     };
+  },
+  methods: {
+    getChiefsRequests() {
+      this.$api
+        .get("admin/chefs-requests")
+        .then((res) => {
+          this.chiefsRequests = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async acceptChef(id) {
+      try {
+        const { data } = await this.$api.post(`admin/chefs-requests/approve`, {
+          id,
+        });
+        this.$toast.success(data.message);
+        this.chiefsRequests = this.chiefsRequests.filter(
+          (chief) => chief.id !== id
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async rejectChef(id) {
+      try {
+        const { data } = await this.$api.post(`admin/chefs-requests/reject`, {
+          id,
+        });
+        this.$toast.success(data.message);
+        this.chiefsRequests = this.chiefsRequests.filter(
+          (chief) => chief.id !== id
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  created() {
+    this.getChiefsRequests();
   },
 };
 </script>
