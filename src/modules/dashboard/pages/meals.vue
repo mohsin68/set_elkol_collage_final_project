@@ -1,5 +1,6 @@
 <template>
   <div class="meals-page">
+    <v-loading :loading="loading" />
     <header class="d-flex justify-between items-center">
       <h1>Meals</h1>
       <v-btn
@@ -219,6 +220,15 @@
         <!-- </v-container> -->
       </v-card>
     </v-dialog>
+    <v-pagination
+      v-model="meta.current_page"
+      :length="meta.last_page"
+      v-if="meta.last_page > 1"
+      prev-icon="mdi-menu-left"
+      next-icon="mdi-menu-right"
+      @input="getAllMeals"
+      class="mt-8"
+    ></v-pagination>
   </div>
 </template>
 
@@ -226,10 +236,12 @@
 import MealCard from "@/components/MealCard.vue";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import VErrors from "@/components/VErrors.vue";
+import VLoading from "@/components/VLoading.vue";
 export default {
   components: {
     MealCard,
     VErrors,
+    VLoading,
     ValidationObserver,
     ValidationProvider,
   },
@@ -251,6 +263,7 @@ export default {
       edit: false,
       meals: [],
       meta: {},
+      loading: false,
     };
   },
   methods: {
@@ -268,19 +281,23 @@ export default {
       return formData;
     },
     async getAllMeals() {
+      this.loading = true;
       try {
-        const { data } = await this.$api.get("/chef/meals");
+        const { data } = await this.$api.get(
+          `/chef/meals?page=${this.meta.current_page || 1}`
+        );
         this.meals = data.data;
         this.meta = data.meta;
       } catch (error) {
         console.log(error);
       }
+      this.loading = false;
     },
     async addMeal() {
       const valid = await this.$refs["add-meal"].validate();
       if (!valid) return;
       const mealData = this.transformToFormData(this.meal);
-
+      this.loading = true;
       try {
         const { data } = await this.$api.post("/chef/meals", mealData);
         this.meals.push(data.data);
@@ -290,6 +307,7 @@ export default {
       } catch (error) {
         this.$toast.error(error.response.data.message);
       }
+      this.loading = false;
     },
     async editMeal(meal) {
       this.meal = meal;
@@ -300,6 +318,7 @@ export default {
       const valid = await this.$refs["add-meal"].validate();
       if (!valid) return;
       const mealData = this.transformToFormData(this.meal);
+      this.loading = true;
       try {
         const { data } = await this.$api.put(
           `/chef/meals/${this.meal.id}`,
@@ -317,8 +336,10 @@ export default {
       } catch (error) {
         console.log(error);
       }
+      this.loading = false;
     },
     async deleteMeal(meal) {
+      this.loading = true;
       try {
         const { data } = await this.$api.delete(`/chef/meals/${meal.id}`);
         this.meals = this.meals.filter((m) => m.id !== meal.id);
@@ -326,6 +347,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
+      this.loading = false;
     },
     resetMeal() {
       this.previewImage = "";
