@@ -22,7 +22,7 @@
         @editMeal="editMeal"
       />
     </div>
-    <v-dialog v-model="dialog" max-width="668px">
+    <v-dialog v-model="dialog" max-width="768px">
       <v-card>
         <!-- <v-container> -->
         <v-card-title>
@@ -38,9 +38,9 @@
         >
           <div class="meal__image w-[30%]">
             <img
-              v-if="meal.image.length"
+              v-if="previewImage.length"
               class="w-32 h-32 rounded-full mx-auto"
-              :src="meal.image"
+              :src="previewImage"
               alt="meal image"
             />
             <div
@@ -68,34 +68,147 @@
           </div>
 
           <div class="meal__info-form flex-1">
-            <v-text-field
-              v-model="meal.name"
-              label="Meal Name"
-              outlined
-              dense
-            ></v-text-field>
-            <!-- text-area -->
-            <v-textarea
-              v-model="meal.description"
-              label="Meal Description"
-              outlined
-              dense
-            ></v-textarea>
-            <v-select
-              v-model="meal.category_slug"
-              :items="categories"
-              item-text="name"
-              value="slug"
-              label="Meal Category"
-              outlined
-              dense
-            ></v-select>
-            <v-text-field
-              v-model="meal.price"
-              label="Meal Price"
-              outlined
-              dense
-            ></v-text-field>
+            <validation-observer class="grid grid-cols-2 gap-4" ref="add-meal">
+              <validation-provider
+                vid="name"
+                name="Meal Name"
+                v-slot="{ errors, validated, invalid }"
+                rules="required"
+              >
+                <v-text-field
+                  v-model="meal.name"
+                  label="Meal Name"
+                  outlined
+                  dense
+                  hide-details
+                  class="mt-4"
+                ></v-text-field>
+                <v-errors v-if="validated && invalid" :data="errors" />
+              </validation-provider>
+
+              <validation-provider
+                vid="category"
+                name="Meal Category"
+                v-slot="{ errors, validated, invalid }"
+                rules="required"
+              >
+                <v-select
+                  v-model="meal.category_slug"
+                  :items="categories"
+                  item-text="name"
+                  value="slug"
+                  label="Meal Category"
+                  outlined
+                  dense
+                  hide-details
+                  class="mt-4"
+                ></v-select>
+                <v-errors v-if="validated && invalid" :data="errors" />
+              </validation-provider>
+
+              <validation-provider
+                vid="price"
+                name="Meal Price"
+                v-slot="{ errors, validated, invalid }"
+                rules="required|numeric"
+              >
+                <v-text-field
+                  v-model="meal.price"
+                  label="Meal Price"
+                  outlined
+                  dense
+                  hide-details
+                  class="mt-4"
+                ></v-text-field>
+                <v-errors v-if="validated && invalid" :data="errors" />
+              </validation-provider>
+
+              <validation-provider
+                vid="calories"
+                name="Meal calories"
+                v-slot="{ errors, validated, invalid }"
+                rules="required|numeric"
+              >
+                <v-text-field
+                  v-model="meal.calories"
+                  label="Meal calories"
+                  outlined
+                  dense
+                  hide-details
+                  class="mt-4"
+                ></v-text-field>
+                <v-errors v-if="validated && invalid" :data="errors" />
+              </validation-provider>
+
+              <validation-provider
+                vid="description"
+                name="Meal Description"
+                v-slot="{ errors, validated, invalid }"
+                rules="required"
+              >
+                <v-textarea
+                  v-model="meal.description"
+                  label="Meal Description"
+                  outlined
+                  dense
+                  hide-details
+                  class="mt-4"
+                ></v-textarea>
+                <v-errors v-if="validated && invalid" :data="errors" />
+              </validation-provider>
+
+              <validation-provider
+                vid="ingredients"
+                name="Meal Ingredients"
+                v-slot="{ errors, validated, invalid }"
+                rules="required"
+              >
+                <v-textarea
+                  v-model="meal.ingredients"
+                  label="Meal Ingredients"
+                  outlined
+                  dense
+                  hide-details
+                  class="mt-4"
+                ></v-textarea>
+                <v-errors v-if="validated && invalid" :data="errors" />
+              </validation-provider>
+
+              <div class="warnings-wrapper mt-4 col-span-2">
+                <div class="d-flex justify-between mb-4">
+                  <h5>Warnings</h5>
+                  <v-btn
+                    color="primary"
+                    class="add-warning-btn"
+                    @click="meal.warnings.push('')"
+                    small
+                  >
+                    <v-icon class="mr-2">mdi-plus</v-icon>
+                    Add a Warning
+                  </v-btn>
+                </div>
+                <validation-provider
+                  vid="warning"
+                  name="Warning"
+                  v-slot="{ errors, validated, invalid }"
+                  rules="required"
+                >
+                  <v-text-field
+                    v-for="(warning, index) in meal.warnings"
+                    :key="index"
+                    v-model="meal.warnings[index]"
+                    :label="`Warning ${index + 1}`"
+                    outlined
+                    dense
+                    hide-details
+                    :append-icon="index ? 'mdi-trash-can-outline' : ''"
+                    @click:append="meal.warnings.splice(index, 1)"
+                    class="mt-4"
+                  ></v-text-field>
+                  <v-errors v-if="validated && invalid" :data="errors" />
+                </validation-provider>
+              </div>
+            </validation-observer>
           </div>
         </v-card-text>
         <v-card-actions>
@@ -111,144 +224,130 @@
 
 <script>
 import MealCard from "@/components/MealCard.vue";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
+import VErrors from "@/components/VErrors.vue";
 export default {
-  components: { MealCard },
+  components: {
+    MealCard,
+    VErrors,
+    ValidationObserver,
+    ValidationProvider,
+  },
   data() {
     return {
       dialog: false,
       categories: [],
+      previewImage: "",
       meal: {
         name: "",
         description: "",
         category_slug: "",
+        ingredients: "",
         price: "",
         image: "",
+        calories: "",
+        warnings: [""], // array of strings
       },
       edit: false,
-      meals: [
-        {
-          id: 1,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 2,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 3,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 4,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 5,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 6,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 7,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 8,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 9,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 10,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 11,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-        {
-          id: 12,
-          name: "kofta",
-          category: "mashawy",
-          price: 20,
-          image: "",
-          description: "",
-        },
-      ],
+      meals: [],
+      meta: {},
     };
   },
   methods: {
-    addMeal() {
-      this.meals.unshift(this.meal);
+    transformToFormData(obj) {
+      const formData = new FormData();
+      for (const key in obj) {
+        if (Array.isArray(obj[key])) {
+          obj[key].forEach((item) => {
+            formData.append(`${key}[]`, item);
+          });
+        } else {
+          formData.append(key, obj[key]);
+        }
+      }
+      return formData;
+    },
+    async getAllMeals() {
+      try {
+        const { data } = await this.$api.get("/chef/meals");
+        this.meals = data.data;
+        this.meta = data.meta;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async addMeal() {
+      const valid = await this.$refs["add-meal"].validate();
+      if (!valid) return;
+      const mealData = this.transformToFormData(this.meal);
+
+      try {
+        const { data } = await this.$api.post("/chef/meals", mealData);
+        this.meals.push(data.data);
+        this.dialog = false;
+        this.$toast.success("Meal added successfully");
+        this.resetMeal();
+      } catch (error) {
+        this.$toast.error(error.response.data.message);
+      }
+    },
+    async editMeal(meal) {
+      this.meal = meal;
+      this.edit = true;
+      this.dialog = true;
+    },
+    async updateMeal() {
+      const valid = await this.$refs["add-meal"].validate();
+      if (!valid) return;
+      const mealData = this.transformToFormData(this.meal);
+      try {
+        const { data } = await this.$api.put(
+          `/chef/meals/${this.meal.id}`,
+          mealData
+        );
+        this.meals = this.meals.map((meal) => {
+          if (meal.id === this.meal.id) {
+            return data.data;
+          }
+          return meal;
+        });
+        this.dialog = false;
+        this.$toast.success("Meal updated successfully");
+        this.resetMeal();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async deleteMeal(meal) {
+      try {
+        const { data } = await this.$api.delete(`/chef/meals/${meal.id}`);
+        this.meals = this.meals.filter((m) => m.id !== meal.id);
+        this.$toast.success("Meal deleted successfully");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    resetMeal() {
+      this.previewImage = "";
       this.meal = {
         name: "",
         category: "",
         price: "",
         image: "",
         description: "",
+        ingredients: "",
+        calories: "",
+        warnings: [], // array of strings
       };
-      this.dialog = false;
-    },
-    editMeal(meal) {
-      this.meal = meal;
-      this.dialog = true;
-      this.edit = true;
     },
     handleImageUpload(e) {
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.meal.image = reader.result;
+      reader.onload = (e) => {
+        this.previewImage = e.target.result;
       };
+      this.meal.image = file;
     },
     async getCats() {
       try {
@@ -262,15 +361,12 @@ export default {
   watch: {
     edit() {
       if (!this.edit) {
-        this.meal = {
-          name: "",
-          category: "",
-          price: "",
-        };
+        this.resetMeal();
       }
     },
   },
   created() {
+    this.getAllMeals();
     this.getCats();
   },
 };

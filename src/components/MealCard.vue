@@ -1,21 +1,21 @@
 <template>
-  <base-card class="meal-card relative d-flex gap-4 items-center">
-    <div class="meal__image">
+  <base-card class="meal-card relative d-flex gap-4">
+    <div class="meal__image w-28 h-28 rounded-full self-start">
       <img
-        class="w-32 h-32 rounded-full"
+        class="w-full h-full rounded-full object-cover"
         src="@/assets/images/meal.jpg"
         alt="meal image"
       />
     </div>
     <div class="meal-info">
-      <h3 class="meal-name">{{ meal.name }}</h3>
+      <h4 class="meal-name pe-3">{{ meal.name }}</h4>
       <p class="meal-category text-muted text-sm">{{ meal.category }}</p>
       <span class="meal-price text-green font-bold">{{ meal.price }} EGP</span>
     </div>
-    <v-menu close-on-content-click transition="scale-transition" offset-y>
+    <v-menu close-on-content-click transition="scale-transition">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
-          class="absolute top-4 right-4"
+          class="absolute top-2 right-2"
           dark
           icon
           v-bind="attrs"
