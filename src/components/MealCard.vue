@@ -1,9 +1,9 @@
 <template>
   <base-card class="meal-card relative d-flex gap-4">
-    <div class="meal__image w-28 h-28 rounded-full self-start">
+    <div class="meal__image aspect-[1/1] w-32 rounded-full self-start">
       <img
         class="w-full h-full rounded-full object-cover"
-        src="@/assets/images/meal.jpg"
+        :src="meal.image"
         alt="meal image"
       />
     </div>
@@ -32,7 +32,7 @@
             Edit
           </v-list-item-title>
         </v-list-item>
-        <v-list-item link dense>
+        <v-list-item link dense @click="$emit('deleteMeal', meal)">
           <v-list-item-title class="text-sm text-red">
             <v-icon color="red" class="mr-2">mdi-delete</v-icon>
             Delete

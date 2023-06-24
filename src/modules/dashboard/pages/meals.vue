@@ -21,6 +21,7 @@
         :key="meal.id"
         :meal="meal"
         @editMeal="editMeal"
+        @deleteMeal="deleteMeal"
       />
     </div>
     <v-dialog v-model="dialog" max-width="768px">
@@ -94,7 +95,7 @@
                 rules="required"
               >
                 <v-select
-                  v-model="meal.category_slug"
+                  v-model="meal.category"
                   :items="categories"
                   item-text="name"
                   value="slug"
@@ -253,7 +254,7 @@ export default {
       meal: {
         name: "",
         description: "",
-        category_slug: "",
+        category: "",
         ingredients: "",
         price: "",
         image: "",
@@ -286,7 +287,12 @@ export default {
         const { data } = await this.$api.get(
           `/chef/meals?page=${this.meta.current_page || 1}`
         );
-        this.meals = data.data;
+        this.meals = data.data.map((meal) => {
+          if (!meal.warnings) {
+            meal.warnings = [""];
+          }
+          return meal;
+        });
         this.meta = data.meta;
       } catch (error) {
         console.log(error);
@@ -296,7 +302,11 @@ export default {
     async addMeal() {
       const valid = await this.$refs["add-meal"].validate();
       if (!valid) return;
-      const mealData = this.transformToFormData(this.meal);
+      const meal = {
+        ...this.meal,
+        category_slug: this.meal.category,
+      };
+      const mealData = this.transformToFormData(meal);
       this.loading = true;
       try {
         const { data } = await this.$api.post("/chef/meals", mealData);
@@ -310,14 +320,21 @@ export default {
       this.loading = false;
     },
     async editMeal(meal) {
-      this.meal = meal;
+      this.meal = { ...meal, image: "" };
+
+      this.previewImage = meal.image;
       this.edit = true;
       this.dialog = true;
     },
     async updateMeal() {
       const valid = await this.$refs["add-meal"].validate();
       if (!valid) return;
-      const mealData = this.transformToFormData(this.meal);
+      const meal = {
+        ...this.meal,
+        category_slug: this.meal.category,
+      };
+      const mealData = this.transformToFormData(meal);
+
       this.loading = true;
       try {
         const { data } = await this.$api.put(
@@ -344,6 +361,7 @@ export default {
         const { data } = await this.$api.delete(`/chef/meals/${meal.id}`);
         this.meals = this.meals.filter((m) => m.id !== meal.id);
         this.$toast.success("Meal deleted successfully");
+        this.getAllMeals();
       } catch (error) {
         console.log(error);
       }
