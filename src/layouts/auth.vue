@@ -2,7 +2,7 @@
   <div class="auth-layout">
     <v-main class="max-w-sm d-flex justify-center items-center flex-col">
       <div class="logo">
-        <img src="@/assets/logo2.png" alt="logo" class="mx-auto w-24" />
+        <img src="@/assets/logo2.png" alt="logo" class="mx-auto w-34" />
         <img
           src="@/assets/images/signin_meal.png"
           class="w-20 mx-auto"
