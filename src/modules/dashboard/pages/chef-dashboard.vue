@@ -47,6 +47,10 @@ export default {
         this.stats.forEach((stat) => {
           const value =
             data.data.stats[stat.title.toLowerCase().replace(" ", "_")];
+          if (stat.title === "Total Revenue") {
+            stat.number = formatNumber(value * 0.01);
+            return;
+          }
           stat.number = formatNumber(value);
         });
       } catch (error) {
