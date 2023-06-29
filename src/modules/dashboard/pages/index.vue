@@ -58,12 +58,20 @@ export default {
       const stats = data.data.stats;
       this.statistics.forEach((stat) => {
         const value = stats[stat.title.toLowerCase().replace(" ", "_")];
-
+        if (stat.title === "Total Revenue") {
+          stat.number = formatNumber(value * 0.01);
+          return;
+        }
         stat.number = formatNumber(value);
       });
 
       this.ordersChart = stats.orders_chart;
-      this.revenueChart = stats.revenue_chart;
+      this.revenueChart = stats.revenue_chart.map((item) => {
+        return {
+          month: item.month,
+          total: item.total * 0.01,
+        };
+      });
     },
   },
   created() {

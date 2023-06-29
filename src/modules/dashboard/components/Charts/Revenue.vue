@@ -21,7 +21,9 @@ export default {
       series: [
         {
           name: "Revenue",
-          data: this.data.map((item) => item.total),
+          data: this.data.map((item) => {
+            return item.total;
+          }),
         },
       ],
       chartOptions: {
@@ -35,7 +37,7 @@ export default {
           },
         },
         chart: {
-          type: "bar",
+          type: "area",
           background: "transparent",
 
           zoom: {
