@@ -33,7 +33,7 @@
 
       <v-btn
         class="mt-4 absolute bottom-9 w-[90%] left-1/2 transform -translate-x-1/2"
-        color="primary"
+        color="green"
         outlined
         @click="
           $store.dispatch('logout');
@@ -82,7 +82,7 @@ export default {
 
 <style lang="scss" scoped>
 .active {
-  background-color: theme("colors.yellow");
+  background-color: theme("colors.green");
   overflow: hidden;
   &::before {
     content: "";

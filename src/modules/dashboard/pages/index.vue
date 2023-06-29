@@ -2,20 +2,35 @@
   <div class="home">
     <statistics-list :statistics="statistics" class="h-fit" />
 
-    <div class="mt-4">
-      <revenue
-        :data="revenueChart"
-        label="Revenue"
-        v-if="revenueChart.length"
+    <div class="grid grid-cols-5 gap-4 mt-4">
+      <cities-chart
+        class="col-span-2"
+        :data="mostCities"
+        label="Most Ordered Cities"
+        v-if="mostCities.length"
       />
+
       <orders-states
-        class="mt-4"
+        class="col-span-3"
         :data="ordersChart"
         label="Orders"
         v-if="ordersChart.length"
       />
     </div>
-    <!-- <orders-table :orders="orders" /> -->
+    <div class="grid grid-cols-5 gap-4 mt-4">
+      <revenue
+        class="col-span-3"
+        :data="revenueChart"
+        label="Revenue"
+        v-if="revenueChart.length"
+      />
+      <meals-chart
+        class="col-span-2"
+        :data="bestMeals"
+        label="Best Selling Meals"
+        v-if="bestMeals.length"
+      />
+    </div>
   </div>
 </template>
 
@@ -25,9 +40,18 @@ import OrdersStates from "../components/Charts/BarChart.vue";
 import Revenue from "../components/Charts/AreaChart.vue";
 import StatisticsList from "../components/Statistics/StatisticsList.vue";
 import formatNumber from "@/helpers/formatNumber";
+import mealsChart from "../components/Charts/PieChart.vue";
+import citiesChart from "../components/Charts/PolarArea.vue";
 
 export default {
-  components: { StatisticsList, Revenue, OrdersStates, OrdersTable },
+  components: {
+    StatisticsList,
+    Revenue,
+    OrdersStates,
+    OrdersTable,
+    mealsChart,
+    citiesChart,
+  },
   data() {
     return {
       statistics: [
@@ -54,6 +78,8 @@ export default {
       ],
       ordersChart: [],
       revenueChart: [],
+      mostCities: [],
+      bestMeals: [],
     };
   },
 
@@ -71,6 +97,8 @@ export default {
       });
 
       this.ordersChart = stats.orders_chart;
+      this.mostCities = stats.most_cities_with_orders;
+      this.bestMeals = stats.best_selling_meals_chart;
       this.revenueChart = stats.revenue_chart.map((item) => {
         return {
           month: item.month,
