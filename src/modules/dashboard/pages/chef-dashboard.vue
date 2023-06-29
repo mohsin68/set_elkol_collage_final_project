@@ -9,15 +9,34 @@
         :icon="stat.icon"
       />
     </div>
+    <div class="grid grid-cols-5 gap-4 mt-4">
+      <meals-chart
+        class="col-span-2"
+        :data="mealsChart"
+        label="Best Selling Meals"
+        v-if="mealsChart.length"
+      />
+
+      <revenue-chart
+        class="col-span-3"
+        :data="revenueChart"
+        label="Revenue"
+        v-if="revenueChart.length"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import formatNumber from "@/helpers/formatNumber";
 import StatisticsCart from "../components/Statistics/StatisticsCart.vue";
+import MealsChart from "../components/Charts/PieChart.vue";
+import RevenueChart from "../components/Charts/AreaChart.vue";
 export default {
   components: {
     StatisticsCart,
+    MealsChart,
+    RevenueChart,
   },
   data() {
     return {
@@ -38,6 +57,9 @@ export default {
           icon: "mdi-currency-usd",
         },
       ],
+      mealsChart: [],
+      revenueChart: [],
+      ordersChart: [],
     };
   },
   methods: {
@@ -52,6 +74,13 @@ export default {
             return;
           }
           stat.number = formatNumber(value);
+        });
+        this.mealsChart = data.data.stats.best_selling_meals_chart;
+        this.revenueChart = data.data.stats.revenue_chart.map((item) => {
+          return {
+            ...item,
+            total: item.total * 0.01,
+          };
         });
       } catch (error) {
         console.log(error);

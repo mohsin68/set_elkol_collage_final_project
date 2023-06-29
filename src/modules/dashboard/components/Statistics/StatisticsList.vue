@@ -24,10 +24,10 @@ export default {
 <style lang="scss">
 @use "sass:map";
 $colors: (
-  "1": #6eae8a52,
-  "2": #77744ca3,
-  "3": #48697f6b,
-  "4": #8f6da77d,
+  "1": #4a3a8caa,
+  "2": #ea5f8965,
+  "3": #9b31928a,
+  "4": #58167e79,
 );
 @for $i from 1 through 4 {
   .statistcs-list {

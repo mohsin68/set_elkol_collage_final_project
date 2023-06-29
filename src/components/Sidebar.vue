@@ -33,7 +33,7 @@
 
       <v-btn
         class="mt-4 absolute bottom-9 w-[90%] left-1/2 transform -translate-x-1/2"
-        color="red"
+        color="primary"
         outlined
         @click="
           $store.dispatch('logout');

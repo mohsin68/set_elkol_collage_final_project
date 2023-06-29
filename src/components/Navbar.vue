@@ -4,7 +4,7 @@
       <img src="@/assets/menu.svg" alt="menu" />
     </v-app-bar-nav-icon>
     <v-toolbar-title class="capitalize">
-      {{ this.$route.name }}
+      {{ this.$route.name.replaceAll("-", " ") }}
     </v-toolbar-title>
   </v-app-bar>
 </template>

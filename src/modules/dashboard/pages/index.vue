@@ -3,10 +3,15 @@
     <statistics-list :statistics="statistics" class="h-fit" />
 
     <div class="mt-4">
-      <revenue :data="revenueChart" v-if="revenueChart.length" />
+      <revenue
+        :data="revenueChart"
+        label="Revenue"
+        v-if="revenueChart.length"
+      />
       <orders-states
         class="mt-4"
         :data="ordersChart"
+        label="Orders"
         v-if="ordersChart.length"
       />
     </div>
@@ -16,8 +21,8 @@
 
 <script>
 import OrdersTable from "@/components/OrdersTable.vue";
-import OrdersStates from "../components/Charts/OrdersStates.vue";
-import Revenue from "../components/Charts/Revenue.vue";
+import OrdersStates from "../components/Charts/BarChart.vue";
+import Revenue from "../components/Charts/AreaChart.vue";
 import StatisticsList from "../components/Statistics/StatisticsList.vue";
 import formatNumber from "@/helpers/formatNumber";
 

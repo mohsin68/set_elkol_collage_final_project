@@ -1,6 +1,6 @@
 <template>
   <base-card>
-    <h4 class="font-bold mb-3">Revenue</h4>
+    <h4 class="font-bold mb-3">{{ label }}</h4>
     <apexchart
       height="300"
       :options="chartOptions"
@@ -15,12 +15,13 @@ import formatNumber from "@/helpers/formatNumber";
 export default {
   props: {
     data: Array,
+    label: String,
   },
   data() {
     return {
       series: [
         {
-          name: "Revenue",
+          name: this.label,
           data: this.data.map((item) => {
             return item.total;
           }),
@@ -31,9 +32,7 @@ export default {
           mode: "dark",
           monochrome: {
             enabled: true,
-            color: "#F29322",
-            shadeTo: "dark",
-            shadeIntensity: 0.65,
+            color: "#9B3192",
           },
         },
         chart: {

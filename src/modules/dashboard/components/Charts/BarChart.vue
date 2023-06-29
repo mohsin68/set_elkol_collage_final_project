@@ -1,6 +1,8 @@
 <template>
   <base-card>
-    <h4 class="font-bold mb-3">Orders Statistics</h4>
+    <h4 class="font-bold mb-3">
+      {{ label }}
+    </h4>
     <apexchart
       width="100%"
       height="300"
@@ -14,12 +16,13 @@
 export default {
   props: {
     data: Array,
+    label: String,
   },
   data() {
     return {
       series: [
         {
-          name: "Orders",
+          name: this.label,
           data: this.data.map((item) => item.total),
         },
       ],
@@ -28,9 +31,7 @@ export default {
           mode: "dark",
           monochrome: {
             enabled: true,
-            color: "#519259",
-            shadeTo: "dark",
-            shadeIntensity: 0.65,
+            color: "#4A3A8C",
           },
         },
         chart: {
@@ -45,7 +46,7 @@ export default {
         },
         fill: {
           type: "solid",
-          opacity: 0.3,
+          // opacity: 0.3,
         },
         dataLabels: {
           enabled: false,
