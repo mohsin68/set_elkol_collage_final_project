@@ -19,7 +19,7 @@ export default {
       type: String,
     },
     number: {
-      type: Number,
+      type: Number || String,
     },
     icon: {
       type: String,
