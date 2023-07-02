@@ -19,6 +19,7 @@
             class="rounded-md mb-4"
             :to="item.url"
             exact-active-class="active"
+            v-if="item.roles.includes($store.getters.user.roles[0])"
           >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
@@ -70,10 +71,15 @@ export default {
           title: "Dashboard",
           icon: "mdi-view-dashboard",
           url: this.dashboardUrl,
+          roles: ["super-admin", "chef"],
         },
-        { title: "Orders", icon: "mdi-format-list-bulleted", url: "/orders" },
-        { title: "Meals", icon: "mdi-food", url: "/meals" },
-        { title: "Chiefs", icon: "mdi-bowl-mix-outline", url: "/chiefs" },
+        { title: "Meals", icon: "mdi-food", url: "/meals", roles: ["chef"] },
+        {
+          title: "Chiefs",
+          icon: "mdi-bowl-mix-outline",
+          url: "/chiefs",
+          roles: ["super-admin"],
+        },
       ];
     },
   },
