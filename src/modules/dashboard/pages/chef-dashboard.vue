@@ -30,7 +30,7 @@
 <script>
 import formatNumber from "@/helpers/formatNumber";
 import StatisticsCart from "../components/Statistics/StatisticsCart.vue";
-import MealsChart from "../components/Charts/PieChart.vue";
+import MealsChart from "../components/Charts/PolarArea.vue";
 import RevenueChart from "../components/Charts/AreaChart.vue";
 export default {
   components: {
